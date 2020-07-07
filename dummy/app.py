@@ -1,6 +1,6 @@
 #import werkzeug
 from werkzeug.wrappers import Request, Response
-from werkzeug.routing import Map, Rule
+from werkzeug.routing import Map
 from werkzeug.exceptions import HTTPException, NotFound
 from werkzeug.utils import redirect
 
