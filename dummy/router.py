@@ -20,6 +20,9 @@ class Router:
 	'''
 	
 
+	@classmethod
+    def bind_app(cls, app_instance):
+        cls.app = app_instance
 	
 	def __init__(self, url_rule, methods = None):
 

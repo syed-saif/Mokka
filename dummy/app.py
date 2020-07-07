@@ -4,6 +4,7 @@ from werkzeug.routing import Map
 from werkzeug.exceptions import HTTPException, NotFound
 from werkzeug.utils import redirect
 
+from .router import Router
 
 
 class Dummy():
@@ -12,6 +13,9 @@ class Dummy():
 	def __init__(self):
 		self.url_map = Map()
 		self.views = {}
+		Router.bind_app(self)
+
+
 		
 	def get_response(self, endpoint, request, values = None):
 		rv = self.views[endpoint](request, **values)
