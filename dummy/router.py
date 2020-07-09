@@ -1,5 +1,6 @@
 from werkzeug.routing import Rule, Map
-
+from types import FunctionType
+#from typing import Callable
 
 class View_binder:
 	'''
@@ -21,22 +22,35 @@ class Router:
 	
 
 	@classmethod
-    def bind_app(cls, app_instance):
-        cls.app = app_instance
+	def bind_app(cls, app_instance):
+		cls.app = app_instance
+	
 	
 	def __init__(self, url_rule, methods = None):
 
 		self.rule = url_rule
 		self.methods = methods
-		self.endpoint = None
+
 
 	def __enter__(self):
 		
+		self.endpoint = None
 		return View_binder(self)
 
-	def __exit__(self, *args):
+	def __exit__(self, exc_type, exc_val, exc_tb):
+		
+		if self.endpoint is None:
+			raise RuntimeError(f"Router for '{self.rule}' expected"
+				" the user to bind a 'function' to it"
+				" but got 'None'.")
+
+		if not isinstance(self.endpoint, FunctionType):
+			raise TypeError("View_binder.bind() argument must be"
+				f" a 'function', not '{type(self.endpoint).__name__}'") 
+
 		if self.methods is None:
 			self.methods = ['GET']
+
 		rule_obj = Rule(self.rule, endpoint = self.endpoint.__name__, methods = self.methods)
 		Router.app.url_map.add(rule_obj)
 		Router.app.views[self.endpoint.__name__] = self.endpoint
