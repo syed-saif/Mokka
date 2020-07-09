@@ -6,6 +6,9 @@ from werkzeug.utils import redirect
 
 from .router import Router
 
+#Werkzeug's Response class, by default, uses 'text/plain' as the mimetype.
+#In Dummy, I prefer the default mimetype to be 'text/html' and hence the class variable is overridden as:
+Response.default_mimetype = "text/html"
 
 class Dummy():
 	"""docstring for Dummy"""
