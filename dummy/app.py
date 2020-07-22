@@ -21,8 +21,10 @@ class Dummy():
 	def __init__(self, templates_path = None):
 		self.url_map = Map()
 		self.views = {}
+
 		self.templates_path = templates_path
-		
+		self.verify_templates_path()
+
 		Router.bind_app(self)
 		Templates.bind_app(self)
 
@@ -35,6 +37,25 @@ class Dummy():
 		path = os.path.dirname(filename)
 		root_path = os.path.abspath(path)
 		return root_path
+
+	def verify_templates_path(self):
+		'''
+		Checks if the provided path is relative, then if it exists, else
+		throws appropriate errors 
+		'''
+		path = self.templates_path
+		
+		if path is not None and not isinstance(path, str):
+			raise ValueError("'templates_path' provided to 'Dummy' constructor must be of type 'str'")
+		
+		if path is not None:
+			if os.path.isabs(path):
+				raise ValueError("If 'templates_path' is provided to 'Dummy' constructor"
+				 ", it must be relative. An absolute path was given instead")
+
+			if not os.path.exists(path):
+				raise ValueError("'templates_path' provided to 'Dummy' constructor does not exist."
+					" Provide a valid, relative path")
 
 
 	def get_response(self, endpoint, request, values = None):
