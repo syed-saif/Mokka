@@ -9,6 +9,7 @@ from werkzeug.exceptions import HTTPException, NotFound
 from werkzeug.utils import redirect
 
 from .router import Router
+from .templating import Templates
 
 #Werkzeug's Response class, by default, uses 'text/plain' as the mimetype.
 #In Dummy, I prefer the default mimetype to be 'text/html' and hence the class variable is overridden as:
@@ -17,10 +18,13 @@ Response.default_mimetype = "text/html"
 class Dummy():
 	"""docstring for Dummy"""
 	
-	def __init__(self):
+	def __init__(self, templates_path = None):
 		self.url_map = Map()
 		self.views = {}
+		self.templates_path = templates_path
+		
 		Router.bind_app(self)
+		Templates.bind_app(self)
 
 	def get_root_path(self):
 		'''
