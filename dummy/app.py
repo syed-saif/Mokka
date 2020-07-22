@@ -25,6 +25,7 @@ class Dummy():
 	def get_root_path(self):
 		'''
 		Returns the root path of the module that contains the 'Dummy' instance
+		Note that this fails when, instance is created and ran with an IDE
 		'''
 		filename = getattr(sys.modules.get('__main__'), '__file__')
 		path = os.path.dirname(filename)
