@@ -1,3 +1,7 @@
+
+import sys
+import os
+
 #import werkzeug
 from werkzeug.wrappers import Request, Response
 from werkzeug.routing import Map
@@ -18,8 +22,16 @@ class Dummy():
 		self.views = {}
 		Router.bind_app(self)
 
+	def get_root_path(self):
+		'''
+		Returns the root path of the module that contains the 'Dummy' instance
+		'''
+		filename = getattr(sys.modules.get('__main__'), '__file__')
+		path = os.path.dirname(filename)
+		root_path = os.path.abspath(path)
+		return root_path
 
-		
+
 	def get_response(self, endpoint, request, values = None):
 		rv = self.views[endpoint](request, **values)
 		return rv
