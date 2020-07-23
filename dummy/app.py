@@ -19,6 +19,15 @@ class Dummy():
 	"""docstring for Dummy"""
 	
 	def __init__(self, templates_path = None):
+		'''
+		parameters: 
+		'templates_path': The folder that contains all the user-created
+		                  templates, that are to be rendered by the TRender engine.
+		                  If provided, the directory must exist and 'Dummy' will only
+		                  check for the given path's existence and will not create it.
+		                  Defaults to 'None', which results in creation of a default
+		                  templates folder in the root path of application.  
+		'''
 		self.url_map = Map()
 		self.views = {}
 
