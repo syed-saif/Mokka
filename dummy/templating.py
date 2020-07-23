@@ -10,6 +10,15 @@ class Templates:
 	This is only to keep certain things together. 
 	'''
 
+	@staticmethod
+	def render_template():
+		'''
+		A static method that provides the users the option to either render templates 
+		or strings. So far, only this method, in this module, is meant to be directly used 
+		by the user.
+		'''
+		pass
+
 	@classmethod
 	def check_and_create_templates_folder(cls):
 		'''
@@ -23,9 +32,9 @@ class Templates:
 			
 			try:
 				path = os.path.join(cls.root_path, 'templates/')
+				cls.app.templates_path = path
 				os.mkdir(path)
-				cls.app.templates_path = path	
-
+				
 			except FileExistsError:
 				#Since mkdir can sometimes produce a race condition, and say that
 				#the file/dir already exists even when it's not, we do nothing when
