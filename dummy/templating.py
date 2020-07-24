@@ -11,13 +11,27 @@ class Templates:
 	'''
 
 	@staticmethod
-	def render_template():
+	def render_template_inside_class(template ,sub_dir = None, **namespace):
 		'''
-		A static method that provides the users the option to either render templates 
-		or strings. So far, only this method, in this module, is meant to be directly used 
-		by the user.
+		A static method that provides the users the option to render user-created templates.
+		So far, only this method and 'render_from_string' method, in this module, is meant to 
+		be directly used by the user. Go to the end of this module to know why the function is named this way.
+		params: 
+		'template': The template to be rendered. This must be present inside the app's 'templates'
+					folder(either the default or user created one). 
+		'sub_dir': Additionally, the users may want to group certain templates together in a sub-directory
+				   within the templates folder. In that case, this parameter can be used to specify the 
+				   respective sub-directory. Defaults to 'None'.
+		'namespace': To define variables within templates, a namespace(which is a dict of 'varaible':'value' pairs)
+					 must be provided to TRender. This method accepts a bunch of keyword args(which becomes a dict)
+					 and then it is provided to TRender.
 		'''
-		pass
+		cls = Templates
+
+		#a very simple render_template func:
+		compiled = TRender(template, path = cls.app.templates_path)
+		output = compiled.render(namespace)
+		return output
 
 	@classmethod
 	def check_and_create_templates_folder(cls):
@@ -57,3 +71,12 @@ class Templates:
 		cls.app = app
 		cls.root_path = app.get_root_path()
 		cls.check_and_create_templates_folder()
+
+
+#In this module, only 'render_template' and 'render_from_string' are meant to be used by user.
+#But it's not possible to import only a selected method from a class, only the class itself can be imported
+#To tackle this, we simply create a variable that points to the static method of the class
+#Then this variable is imported, rather than directly attempting to import the class's methods.
+#Here, the 'import' is all about importing stuff within __init__.py file of this package.  
+render_template = Templates.render_template_inside_class
+
