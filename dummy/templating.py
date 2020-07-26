@@ -21,18 +21,46 @@ class Templates:
 					folder(either the default or user created one). 
 		'sub_dir': Additionally, the users may want to group certain templates together in a sub-directory
 				   within the templates folder. In that case, this parameter can be used to specify the 
-				   respective sub-directory. Defaults to 'None'.
+				   respective sub-directory. Defaults to 'None'. 
 		'namespace': To define variables within templates, a namespace(which is a dict of 'varaible':'value' pairs)
 					 must be provided to TRender. This method accepts a bunch of keyword args(which becomes a dict)
 					 and then it is provided to TRender.
 		'''
 		cls = Templates
 
-		#a very simple render_template func:
-		compiled = TRender(template, path = cls.app.templates_path)
+		#default template path:
+		path = cls.app.templates_path
+		
+		#In case 'sub_dir' arg was passed:
+		if sub_dir is not None:
+
+			cls.verify_sub_dir(path)
+			path = os.path.join(path, sub_dir)	
+		
+		compiled = TRender(template, path = path)
 		output = compiled.render(namespace)
+		
 		return output
 
+	@classmethod
+	def verify_sub_dir(cls, path):
+		'''
+		Checks if the provided path is relative, then if it exists, else
+		throws appropriate errors 
+		'''
+
+		if not isinstance(path, str):
+			raise ValueError("'sub_dir' argument provided to 'render_template' must be of type 'str'")
+
+		if os.path.isabs(path):
+			raise ValueError("'sub_dir' argument provided to 'render_template' must be a" 
+			 " relative path. An absolute path was given instead.")
+
+		if not os.path.isdir(path):
+			raise ValueError("'sub_dir' argument provided to 'render_template' does not exist."
+				" Provide a valid, relative path.")
+
+		
 	@classmethod
 	def check_and_create_templates_folder(cls):
 		'''
