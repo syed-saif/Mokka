@@ -1,4 +1,4 @@
-from .app import Dummy
+from .app import Mokka
 
 from .router import Router
 

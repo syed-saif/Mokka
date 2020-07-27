@@ -1,7 +1,7 @@
-from dummy import Dummy, Router
+from mokka import Mokka, Router
 
 
-app = Dummy()
+app = Mokka()
 
 with Router('/home/') as vb:
 	def fun(req):

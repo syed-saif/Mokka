@@ -12,18 +12,18 @@ from .router import Router
 from .templating import Templates
 
 #Werkzeug's Response class, by default, uses 'text/plain' as the mimetype.
-#In Dummy, I prefer the default mimetype to be 'text/html' and hence the class variable is overridden as:
+#In Mokka, I prefer the default mimetype to be 'text/html' and hence the class variable is overridden as:
 Response.default_mimetype = "text/html"
 
-class Dummy():
-	"""docstring for Dummy"""
+class Mokka():
+	"""docstring for Mokka"""
 	
 	def __init__(self, templates_path = None):
 		'''
 		parameters: 
 		'templates_path': The folder that contains all the user-created
 		                  templates, that are to be rendered by the TRender engine.
-		                  If provided, the directory must exist and 'Dummy' will only
+		                  If provided, the directory must exist and 'Mokka' will only
 		                  check for the given path's existence and will not create it.
 		                  Defaults to 'None', which results in creation of a default
 		                  templates folder in the root path of application.  
@@ -40,7 +40,7 @@ class Dummy():
 
 	def get_root_path(self):
 		'''
-		Returns the root path of the module that contains the 'Dummy' instance
+		Returns the root path of the module that contains the 'Mokka' instance
 		Note that this fails when, instance is created and ran with an IDE
 		'''
 		filename = getattr(sys.modules.get('__main__'), '__file__')
@@ -57,14 +57,14 @@ class Dummy():
 		path = self.templates_path
 		
 		if not isinstance(path, str):
-			raise ValueError("'templates_path' provided to 'Dummy' constructor must be of type 'str'")
+			raise ValueError("'templates_path' provided to 'Mokka' constructor must be of type 'str'")
 		
 		if os.path.isabs(path):
-			raise ValueError("If 'templates_path' is provided to 'Dummy' constructor"
+			raise ValueError("If 'templates_path' is provided to 'Mokka' constructor"
 			 ", it must be relative. An absolute path was given instead.")
 
 		if not os.path.isdir(path):
-			raise ValueError("'templates_path' provided to 'Dummy' constructor does not exist."
+			raise ValueError("'templates_path' provided to 'Mokka' constructor does not exist."
 				" Provide a valid, relative path.")
 
 
