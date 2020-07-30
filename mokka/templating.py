@@ -14,7 +14,7 @@ class Templates:
 	def render_template_inside_class(template ,sub_dir = None, **namespace):
 		'''
 		A static method that provides the users the option to render user-created templates.
-		So far, only this method and 'render_from_string' method, in this module, is meant to 
+		So far, only this method and 'render_from_string_inside_class' method, in this module, is meant to 
 		be directly used by the user. Go to the end of this module to know why the function is named this way.
 		params: 
 		'template': The template to be rendered. This must be present inside the app's 'templates'
@@ -41,6 +41,29 @@ class Templates:
 		output = compiled.render(namespace)
 		
 		return output
+
+	@staticmethod
+	def render_from_string_inside_class(source_string, **namespace):
+		'''
+		A static method that lets the user render strings, provided the namespace/context is given.
+		In this module, only this method and 'render_template_inside_class' is meant to be used by the user.
+		Again, the last few lines in this module will explain why this method is named this way.
+		params:
+		'source_string': The string to be rendered. Only 'str' objects must be passed.
+		'namespace': These are the values of the variables, defined inside the string to be rendered. Here, a bunch 
+		of keyword args are accepted(which becomes a dict) and are passed to TRender engine.  
+		'''
+		cls = Templates
+
+		if not isinstance(source_string, str):
+			raise ValueError("'source_string' arg passed to 'render_from_string' must"
+				" be of type 'str'.")
+
+		compiled = TRender(source_string)
+		output = compiled.render(namespace)
+
+		return output
+
 
 	@classmethod
 	def verify_sub_dir(cls, path):
@@ -108,3 +131,5 @@ class Templates:
 #Here, the 'import' is all about importing stuff within __init__.py file of this package.  
 render_template = Templates.render_template_inside_class
 
+#same for this method as well:
+render_from_string = Templates.render_from_string_inside_class
