@@ -106,11 +106,11 @@ class Templates:
 				#this exception is raised 
 				
 				pass
-			else:
+			except Exception as e:
 				#if any other exception is catched, it is raised here
 				#hopefully there won't be any :P 
 				
-				raise 
+				raise e
 
 
 	@classmethod
